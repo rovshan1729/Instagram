@@ -19,9 +19,7 @@ class AccountAdapter(DefaultAccountAdapter):
 
 
 class SocialAccountAdapter(DefaultSocialAccountAdapter):
-    def is_open_for_signup(
-        self, request: HttpRequest, sociallogin: SocialLogin
-    ) -> bool:
+    def is_open_for_signup(self, request: HttpRequest, sociallogin: SocialLogin) -> bool:
         return getattr(settings, "ACCOUNT_ALLOW_REGISTRATION", True)
 
     def populate_user(
