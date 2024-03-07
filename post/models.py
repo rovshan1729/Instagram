@@ -41,11 +41,11 @@ class Profile(BaseModel):
     phone_number = models.IntegerField(blank=True, null=True)
 
 
-class Reel(BaseModel):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='reel')
+class Reels(BaseModel):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='reels')
     tag = models.CharField(max_length=32)
     
-    reel_video = models.FileField(upload_to='media/reel/')
+    reel_video = models.FileField(upload_to='media/reels/')
 
     location = models.CharField(max_length=255, blank=True, null=True)
 
@@ -60,6 +60,9 @@ class Reel(BaseModel):
     number_of_comments = models.PositiveIntegerField(default=0)
     number_of_sends = models.PositiveIntegerField(default=0)
 
+    class Meta:
+        verbose_name = 'Reels'
+        verbose_name_plural = 'Reels'
 
 
 class Post(BaseModel):
@@ -92,7 +95,6 @@ class DirectChat(BaseModel):
     second_user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='second_user')
 
 
-
 class DirectMessage(BaseModel):
     chat = models.ForeignKey(DirectChat, on_delete=models.CASCADE, related_name='dm_message')
     sender = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="sent_messages")
@@ -112,7 +114,7 @@ class CommentPost(BaseModel):
     text = models.TextField()
 
 class CommentReel(BaseModel):
-    reel = models.ForeignKey(Reel, on_delete=models.CASCADE, related_name="commented_reel")
+    reel = models.ForeignKey(Reels, on_delete=models.CASCADE, related_name="commented_reel")
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="user_comment_reel")
     parent = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True, related_name="replies_reel")
 
@@ -135,7 +137,7 @@ class LikesPost(BaseModel):
     user = models.ManyToManyField(get_user_model())
 
 class LikesReel(BaseModel):
-    reel = models.ForeignKey(Reel, on_delete=models.CASCADE, related_name="reel_likes")
+    reel = models.ForeignKey(Reels, on_delete=models.CASCADE, related_name="reel_likes")
     user = models.ManyToManyField(get_user_model())
 
 
